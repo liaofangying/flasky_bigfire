@@ -1,0 +1,33 @@
+<ul class="comments">
+	{% for comment in comments %}
+	<li class="comment" >
+		<a href="{{ url_for('user', username=comment[1]) }}" >
+			<img class="img-rounded comment-thumbnail" src={{ comment[0] }} style="width: 40px;height: 40px; float:left;">
+		</a>
+		<div class="comment-content">
+			<div class="comment-date">{{ moment(comment[3]).format('YYYY-M-D h:mm:ss') }}</div>
+			<div class="comment-author"><a href="{{ url_for('user', username=comment[1]) }}">{{ comment[1] }}</a></div>
+			<div class="comment-body col-md-11">{{ comment[2] }}</div>
+			<div class="comment-footer">
+			{% if name %}
+				{% if comment[1] == name or name == username %}
+					<a class="label label-default" onclick="delectonecomment({{ comment[4] }}, this)">删除</a>
+				{% endif %}
+			{% endif %}
+			</div>
+			<div class="clear:both"></div>
+		</div>
+	</li>
+	{% endfor %}
+	<script>
+		function delectonecomment(commentId, that){
+			$.get("http://127.0.0.1:5000/delectonecomment/"+commentId,{
+				commentId: commentId
+			},
+			function(response){
+			alert(response);
+			$(that).parent().parent().parent().remove()
+			})
+		}
+	</script>
+</ul>

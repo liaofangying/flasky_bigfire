@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}UserList{% endblock %}
+
+{% block page_content %}
+{% if isfans == 0 %}
+<h3>{{ username }} following</h3>
+{% else %}
+<h3>{{ username }} 's follower</h3>
+{% endif %}
+{% include '_users.html' %}
+{% endblock %}

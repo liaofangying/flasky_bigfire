@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Login{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Login</h1>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+    <br>
+    <p>New user? <a href="{{ url_for('register') }}">Click here to register</a>.</p>
+    <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
+	<p>That was {{ moment(current_time).fromNow(refresh=True) }}.</p>
+</div>
+{% endblock %}

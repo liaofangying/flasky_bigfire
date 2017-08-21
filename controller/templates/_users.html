@@ -1,0 +1,13 @@
+<ul class="users">
+  {% for user in userList %}
+  <li class="user" >
+    <div>
+      <a href="{{ url_for('user', username=user[2]) }}">
+      <img class="img-rounded" src={{ user[0] }} style="width:40px;height:40px;">
+      </a>
+      <a href="{{ url_for('user', username=user[2]) }}">{{ user[2] }}</a>
+      <div class="clear:both"></div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

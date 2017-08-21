@@ -1,0 +1,25 @@
+<ul class="posts">
+  {% for post in posts %}
+  <li class="post" >
+    <a href="{{ url_for('user', username=post[0]) }}">
+    <img class="img-rounded profile-thumbnail" src={{ post[1] }} style="width:40px;height:40px;">
+    </a>
+    <div class="post-content">
+      <div class="post-date">{{ moment(post[3]).format('YYYY-M-D h:mm:ss') }}</div>
+      <div class="post-author"><a href="{{ url_for('user', username=post[0]) }}">{{ post[0] }}</a></div>
+      <div class="post-body col-md-11">{{ post[2] }}</div>
+      <div class="post-footer">
+        <a href="{{ url_for('post', postId=post[4]) }}">
+          <span class="label label-default">链接</span>
+        </a>
+        {% if post[0] == name %}
+          <a href="{{ url_for('editpost', postId=post[4]) }}">
+            <span class="label label-default">编辑</span>
+          </a>
+        {% endif %}
+      </div>
+      <div class="clear:both"></div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

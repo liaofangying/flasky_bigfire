@@ -1,0 +1,45 @@
+<nav aria-label="Page navigation" class="page_nav">
+  <ul class="pagination">
+    {% if pagenum != [] %}
+      {% if nowpage == 1 %}
+        <li class="disabled">
+          <a aria-label="Previous">
+            <span aria-hidden="true">上一页<span class="sr-only">(current)</span></span>
+          </a>
+        </li>
+      {% else %}
+        <li class="">
+          <a href="{{ url_for('user', username=username, page=nowpage-1) }}" aria-label="Previous">
+            <span aria-hidden="true">上一页</span>
+          </a>
+        </li>
+      {% endif %}
+    {% endif %}
+    {% for i in pagenum %}
+      {% if i == nowpage-1 %}
+        <li class="active">
+          <span>{{i + 1}}<span class="sr-only">(current)</span></span>
+        </li>
+      {% else %}
+        <li class="">
+          <a href="{{ url_for('user', username=username, page=i+1) }}">{{i + 1}}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+    {% if pagenum != [] %}
+      {% if nowpage ==  pagenum[-1] + 1%}
+        <li class="disabled">
+          <a aria-label="Next">
+            <span aria-hidden="true">下一页<span class="sr-only">(current)</span></span>
+          </a>
+        </li>
+      {% else %}
+        <li class="">
+          <a href="{{ url_for('user', username=username, page=nowpage+1) }}" aria-label="Next">
+            <span aria-hidden="true">下一页</span>
+          </a>
+        </li>
+      {% endif %}
+    {% endif %}
+  </ul>
+</nav>

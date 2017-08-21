@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Profile-{{ name }}{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <img class="img-rounded profile-thumbnail" src={{ thisavatar }}>
+    <div class="profile-header">
+        <h1>{{ username }}</h1>
+        {% if username or location %}
+        <p>
+            {% if username %}{{ username }}{% endif %}
+            {% if location %}
+                From <a href="http://maps.google.com/?q={{ location }}">{{ location }}</a>
+            {% endif %}
+        </p>
+        {% endif %}
+        {% if aboutMe %}<p>{{ aboutMe }}</p>{% endif %}
+        <p>
+        Member since {{ moment(inDate).format('L') }}. register {{ moment(lastSeen).fromNow() }}.
+        </p>
+        {% if name %}
+        <div id="box" class="follow-btn">
+        {% if name != username %}
+            {% if name in fansNameList %}
+            <a id="unfollow" class="btn btn-default" onclick="changeToUnfollow(this)">取消关注</a>
+            {% else %}
+            <a id="follow" class="btn btn-primary" onclick="changeToFollowed(this)">关注ta</a>
+            {% endif %}
+        {% endif %}
+        </div>
+        {% endif %}
+        <script>
+            function changeToUnfollow(obj){
+                $.get("http://127.0.0.1:5000/unfollow/{{ username }}/{{ name }}",{
+                        bloggerUserName: "{{ username }}",
+                        fansUserName: "{{ name }}"
+                    },
+                    function(response){
+                    alert(response);
+                    $("#box").html('<a id="follow" class="btn btn-primary" onclick="changeToFollowed(this)">关注ta</a>')
+                    document.getElementById("followersnum").innerHTML=Number($("#followersnum").html())-1
+                    })
+            }
+            function changeToFollowed(obj){
+                $.get("http://127.0.0.1:5000/follow/{{ username }}/{{ name }}",{
+                        bloggerUserName: "{{ username }}",
+                        fansUserName: "{{ name }}"
+                    },
+                    function(response){
+                    alert(response);
+                    $("#box").html('<a id="unfollow" class="btn btn-default" onclick="changeToUnfollow(this)">取消关注</a>')
+                    document.getElementById("followersnum").innerHTML=Number($("#followersnum").html())+1
+                    })
+            }
+        </script>
+        <div class="fans-num">
+        <a href="{{ url_for('fanslist', username=username) }}">粉丝: <span id="followersnum" class="badge">{{ followers-1 }}</span></a>
+        <a href="{{ url_for('followinglist', username=username) }}">关注: <span id="followednum" class="badge">{{ following-1 }}</span></a>
+        <div class="editprofile-btn">
+            {% if name == username %}
+            <a class="btn btn-default" href="{{ url_for('editprofile') }}">编辑资料</a>
+            {% endif %}
+        </p>
+        </div>
+    </div>
+</div>
+<h3>Posts by {{ username }}</h3>
+{% include '_posts.html' %}
+{% include '_page-user.html' %}
+{% endblock %}
